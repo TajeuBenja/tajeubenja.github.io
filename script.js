@@ -104,4 +104,87 @@ document.addEventListener('DOMContentLoaded', function() {
 document.getElementById('theme-toggle').addEventListener('click', function () {
          document.body.classList.toggle('dark');
      });
+           const serviceID = 'devlife_dev';
+            const templateID = 'dev_life';
+            const userID = 'Kap-iDWfLfSrHhPnK';
+            
+            // Send the form data using EmailJS
+            await emailjs.send(serviceID, templateID, {
+                from_name: name,
+                from_email: email,
+                message: message
+            }, userID);
+            
+            // Show success message
+            showNotification('Message sent successfully!', 'success');
+            
+            // Reset form
+            contactForm.reset();
+        } catch (error) {
+            console.error('Error sending message:', error);
+            showNotification('Failed to send message. Please try again.', 'error');
+        } finally {
+            // Restore button state
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
+        }
+    });
+    
+    // Create notification function
+    function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `form-notification ${type}`;
+        notification.textContent = message;
+        
+        // Style the notification to match your site's design
+        notification.style.padding = '10px 20px';
+        notification.style.marginTop = '20px';
+        notification.style.borderRadius = '5px';
+        notification.style.textAlign = 'center';
+        notification.style.fontWeight = '500';
+        notification.style.animation = 'fadeIn 0.3s ease-in-out';
+        
+        if (type === 'success') {
+            notification.style.backgroundColor = '#4CAF50';
+            notification.style.color = 'white';
+        } else {
+            notification.style.backgroundColor = '#f44336';
+            notification.style.color = 'white';
+        }
+        
+        // Add notification to the page
+        const formContainer = document.querySelector('.contact-form');
+        formContainer.appendChild(notification);
+        
+        // Remove notification after 5 seconds
+        setTimeout(() => {
+            notification.style.animation = 'fadeOut 0.3s ease-in-out';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 5000);
+    }
+    
+    // Add necessary animations to your stylesheet or inline here
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+    `;
+    document.head.appendChild(style);
+});
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize EmailJS with your User ID (Public Key)
+    emailjs.init('Kap-iDWfLfSrHhPnK');
+    
+    // Rest of your code...
+});
      
